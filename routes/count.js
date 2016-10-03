@@ -3,9 +3,12 @@ var router = express.Router();
 var fs = require('fs');
 
 router.post('/', function(req, res, next) {
-  console.log('the request is: ', req.body);
+  // req.body seems to come in as an object with a variable number of keys
+  // TODO operate on all keys, regardless of number
+
+  console.log('original request', Object.keys(req.body).join('**'));
   var result = wordCount(req.body)
-  console.log(result);
+  // console.log(result);
   res.send(result);
 });
 
@@ -16,7 +19,6 @@ curl  -H "Content-Type: application/json" -X POST http://localhost:3000/count -d
  */
 
 function wordCount(data) {
-  console.log('the data received', data);
   data = Object.keys(data)[0];
   data = data.split('');
   var count = {};
