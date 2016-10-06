@@ -9,7 +9,7 @@ router.post('/', function(req, res, next) {
   console.log('original request', Object.keys(req.body));
   var result = wordCount(req.body);
   // console.log(result);
-  res.send(result);
+  res.send({letterDistribution: result});
 });
 
 module.exports.count = router;
@@ -20,8 +20,8 @@ curl  -H "Content-Type: application/json" -X POST http://localhost:3000/count -d
 
 function wordCount(data) {
   console.log('this is what we got: ', data);
-  data = Object.keys(data).join('');
-  data = decodeURIComponent(data).split('');
+  data = data.fulltext;
+  data = data.split('');
   var count = {};
 
   data.forEach((letter) => {
